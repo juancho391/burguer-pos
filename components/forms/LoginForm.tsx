@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Button } from "../ui/Button";
+import { GenericButton } from "../ui/genericButton";
 import { GenericInput } from "../ui/GenericInput";
 import { Card } from "../ui/Card";
 
@@ -8,11 +8,11 @@ export default function LoginForm({
   onSubmit,
   error,
 }: {
-  onSubmit: (data: { email: string; password: string }) => void;
+  onSubmit: (data: { username: string; password: string }) => void;
   error?: string;
 }) {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -36,12 +36,12 @@ export default function LoginForm({
         onSubmit={handleLogin}
         className="mt-5 flex flex-col gap-2 items-center justify-center"
       >
-        <label htmlFor="email" className="self-start">
-          Correo Electronico
+        <label htmlFor="username" className="self-start">
+          Username
         </label>
         <GenericInput
-          name="email"
-          placeholder="Correo Electronico"
+          name="username"
+          placeholder="username"
           onChange={handleChange}
         />
         <label htmlFor="password" className="self-start">
@@ -54,9 +54,12 @@ export default function LoginForm({
           onChange={handleChange}
         />
         {error && <p className="text-red-500 mt-2">{error}</p>}
-        <Button type="submit" className="border w-1/2 mt-3">
+        <GenericButton
+          type="submit"
+          className="border w-1/2 mt-3 bg-orange-500"
+        >
           Iniciar Sesion
-        </Button>
+        </GenericButton>
       </form>
     </Card>
   );

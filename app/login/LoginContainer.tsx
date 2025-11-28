@@ -10,14 +10,13 @@ export default function LoginContainer() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [error, setError] = useState("");
-  const handleLogin = async (data: { email: string; password: string }) => {
+  const handleLogin = async (data: { username: string; password: string }) => {
     try {
       const userData = await authService.login(data);
-      console.log(userData);
       dispatch(
         loginSuccess({
-          token: userData.token.access_token,
-          user: userData.email,
+          token: userData.access,
+          user: data.username,
         })
       );
       router.push("/home");
