@@ -4,3 +4,9 @@ export interface Ingredient {
   stock: number;
   reposition_point: number;
 }
+
+export interface CreateIngredient {
+  name: string;
+  stock: number;
+  reposition_point: number;
+}
