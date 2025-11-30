@@ -1,5 +1,6 @@
 import api from "@/lib/api";
 import { Ingredient } from "@/types/ingredient";
+import { CreateIngredient } from "@/types/ingredient";
 
 export const IngredientService = {
   getAll: async () => {
@@ -22,6 +23,11 @@ export const IngredientService = {
 
   deleteOne: async (id: number) => {
     const response = await api.delete(`/api/ingredients/${id}/`);
+    return response.data;
+  },
+
+  createOne: async (ingredient: CreateIngredient) => {
+    const response = await api.post(`/api/ingredients/`, ingredient);
     return response.data;
   },
 };
