@@ -13,14 +13,19 @@ import {
 
 const items = [
   {
-    title: "Pedidos",
-    url: "#",
-    icon: ScrollText,
+    title: "Home",
+    url: "/",
+    icon: Home,
   },
   {
     title: "Inventario",
-    url: "#",
+    url: "/ingredients",
     icon: Inbox,
+  },
+  {
+    title: "Pedidos",
+    url: "#",
+    icon: ScrollText,
   },
   {
     title: "Dashboard",

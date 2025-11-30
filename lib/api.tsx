@@ -1,4 +1,5 @@
 import axios from "axios";
+import { store } from "../store";
 
 // Puedes configurar tu base URL según el entorno
 const api = axios.create({
@@ -7,5 +8,16 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+api.interceptors.request.use(
+  (config) => {
+    const token = store.getState().auth.token;
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 export default api;
