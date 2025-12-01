@@ -4,11 +4,15 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { setIngredients } from "@/store/ingredientSlice";
 import IngredientTable from "@/components/ui/IngredientTable";
-import { Ingredient } from "@/types/ingredient";
-
+import { CreateIngredient, Ingredient } from "@/types/ingredient";
+import Modal from "@/components/ui/Modal";
+import { GenericButton } from "@/components/ui/genericButton";
+import IngredientForm from "@/components/forms/IngredientForm";
 export default function IngredientContainer() {
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(""); // estado para errores
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
+  const [createError, setCreateError] = useState("");
   const dispatch = useAppDispatch();
   const ingredients = useAppSelector((state) => state.ingredients.ingredients);
 
@@ -70,6 +74,27 @@ export default function IngredientContainer() {
     }
   };
 
+  const createNewIngredient = async (ingredient: CreateIngredient) => {
+    const defaultIngredient: CreateIngredient = {
+      name: "",
+      stock: 0,
+      reposition_point: 10,
+    };
+    const newIngredient: CreateIngredient = {
+      ...defaultIngredient,
+      ...ingredient,
+    };
+    setCreateError("");
+    try {
+      await IngredientService.createOne(newIngredient);
+      setOpen(false);
+      await fetchIngredients();
+    } catch (error) {
+      setCreateError("Ocurrio un error al crear ingrediente");
+      console.log(error);
+    }
+  };
+
   return (
     <>
       {error && <p className="text-red-500 mb-2">{error}</p>}
@@ -80,6 +105,16 @@ export default function IngredientContainer() {
         onDecrease={decreaseStock}
         onDelete={deleteIngredient}
       />
+      <GenericButton className="self-start" onClick={() => setOpen(true)}>
+        Agregar Ingrediente
+      </GenericButton>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <IngredientForm
+          onSubmit={createNewIngredient}
+          error={createError}
+          onClose={() => setOpen(false)}
+        />
+      </Modal>
     </>
   );
 }

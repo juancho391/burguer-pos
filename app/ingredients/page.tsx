@@ -1,4 +1,3 @@
-import { GenericButton } from "@/components/ui/genericButton";
 import IngredientContainer from "./IngredientContainer";
 
 export default function Ingredients() {
@@ -8,7 +7,6 @@ export default function Ingredients() {
         Gestion de inventario
       </h1>
       <IngredientContainer />
-      <GenericButton className="self-start">Agregar Ingrediente</GenericButton>
     </main>
   );
 }
