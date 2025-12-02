@@ -2,7 +2,7 @@ import OrdersContainer from "./OrdersContainer";
 
 export default function Orders() {
   return (
-    <main>
+    <main className="w-full">
       <OrdersContainer />
     </main>
   );
