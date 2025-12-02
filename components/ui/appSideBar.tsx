@@ -24,7 +24,7 @@ const items = [
   },
   {
     title: "Pedidos",
-    url: "#",
+    url: "/orders",
     icon: ScrollText,
   },
   {
@@ -39,7 +39,9 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Bliss Burguer</SidebarGroupLabel>
+          <SidebarGroupLabel>
+            <span className="font-bold text-xl text-black">Blizz Burguer</span>
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
