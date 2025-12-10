@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@heroui/dropdown": "^2.3.27",
     "@heroui/spinner": "^2.2.24",
     "@heroui/table": "^2.2.27",
     "@radix-ui/react-dialog": "^1.1.15",
