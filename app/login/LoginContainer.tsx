@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import LoginForm from "@/components/forms/LoginForm";
-import { authService } from "@/services/AuthService";
+import { AuthService } from "@/services/AuthService";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { loginSuccess } from "@/store/authSlice";
@@ -12,7 +12,7 @@ export default function LoginContainer() {
   const [error, setError] = useState("");
   const handleLogin = async (data: { username: string; password: string }) => {
     try {
-      const userData = await authService.login(data);
+      const userData = await AuthService.login(data);
       dispatch(
         loginSuccess({
           token: userData.access,

@@ -8,7 +8,9 @@ import { CreateIngredient, Ingredient } from "@/types/ingredient";
 import Modal from "@/components/ui/Modal";
 import { GenericButton } from "@/components/ui/genericButton";
 import IngredientForm from "@/components/forms/IngredientForm";
+import useAuthGuard from "@/hooks/useAuthGuard";
 export default function IngredientContainer() {
+  const { loading } = useAuthGuard();
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
@@ -95,12 +97,18 @@ export default function IngredientContainer() {
     }
   };
 
+  const isAppLoading = loading || isLoading;
+
   return (
     <>
-      {error && <p className="text-red-500 mb-2">{error}</p>}
+      {isAppLoading ? (
+        <div className="w-full h-screen flex items-center justify-center">
+          <p className="text-2xl font-bold">Loading...</p>
+        </div>
+      ) : null}
       <IngredientTable
         ingredients={ingredients}
-        isLoading={isLoading}
+        isLoading={isAppLoading}
         onIncrease={increaseStock}
         onDecrease={decreaseStock}
         onDelete={deleteIngredient}
@@ -115,6 +123,7 @@ export default function IngredientContainer() {
           onClose={() => setOpen(false)}
         />
       </Modal>
+      {error && <p className="text-red-500 mb-2">{error}</p>}
     </>
   );
 }

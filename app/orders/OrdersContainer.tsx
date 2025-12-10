@@ -8,7 +8,9 @@ import Modal from "@/components/ui/Modal";
 import OrderDetail from "@/components/ui/OrderDetail";
 import { Order } from "@/types/order";
 import useProducts from "@/hooks/useProducts";
+import useAuthGuard from "@/hooks/useAuthGuard";
 export default function OrdersContainer() {
+  const { loading } = useAuthGuard();
   const orders = useAppSelector((state) => state.orders.orders);
   const products = useAppSelector((state) => state.products.products);
   const [open, setOpen] = useState(false);
@@ -45,6 +47,11 @@ export default function OrdersContainer() {
 
   return (
     <main className="w-full">
+      {loading && (
+        <div className="">
+          <p>Loading...</p>
+        </div>
+      )}
       <h1 className="font-bold text-3xl">Gestion de pedidos</h1>
       <div className="flex items-center gap-3 mt-10">
         {orders.map((order) => (
