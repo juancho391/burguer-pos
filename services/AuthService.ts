@@ -10,4 +10,9 @@ export const AuthService = {
     const response = await api.post("/auth/jwt/verify/", { token: token });
     return response;
   },
+
+  refresh: async (refresh: string) => {
+    const response = await api.post("/auth/jwt/refresh/", { refresh: refresh });
+    return response;
+  },
 };

@@ -17,6 +17,7 @@ export default function LoginContainer() {
         loginSuccess({
           token: userData.access,
           user: data.username,
+          refresh: userData.refresh,
         })
       );
       router.push("/home");
