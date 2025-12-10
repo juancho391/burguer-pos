@@ -38,7 +38,11 @@ export default function OrderDetail({
       <div className="border border-black/20 w-full "></div>
       <div>
         {order.order_products.map((product) => (
-          <OrderProductCard key={product.id} product={product} />
+          <OrderProductCard
+            key={product.id}
+            product={product}
+            isPaid={order.is_paid}
+          />
         ))}
         <div className="border border-black/20 w-full "></div>
         <div className="flex flex-col justify-between w-full ">
