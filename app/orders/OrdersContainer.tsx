@@ -48,8 +48,8 @@ export default function OrdersContainer() {
   return (
     <main className="w-full">
       {loading && (
-        <div className="">
-          <p>Loading...</p>
+        <div className="w-full h-screen flex items-center justify-center">
+          <p className="text-2xl font-bold">Loading...</p>
         </div>
       )}
       <h1 className="font-bold text-3xl">Gestion de pedidos</h1>
