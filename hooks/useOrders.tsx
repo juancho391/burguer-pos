@@ -24,6 +24,6 @@ export default function useOrders() {
 
   return {
     orderError,
-    fetchOrders, // 👉 la parte importante
+    fetchOrders,
   };
 }
