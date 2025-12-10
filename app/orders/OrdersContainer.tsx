@@ -13,7 +13,6 @@ export default function OrdersContainer() {
   const products = useAppSelector((state) => state.products.products);
   const [open, setOpen] = useState(false);
   const [currentOrderId, setCurrentOrderId] = useState<number | null>(null);
-
   const { productError, fetchProducts } = useProducts();
   const { orderError, fetchOrders } = useOrders();
 
@@ -23,24 +22,29 @@ export default function OrdersContainer() {
     setOpen(true);
   };
   const onSelect = async (key: Key) => {
-    await OrderService.addProduct(currentOrderId!, key as number, 1);
-    await fetchOrders();
+    try {
+      await OrderService.addProduct(currentOrderId!, key as number, 1);
+      await fetchOrders();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const closeOrder = async (order: Order, includeService: boolean) => {
     await OrderService.closeOrder(order.id, includeService);
+    setOpen(false);
     await fetchOrders();
   };
 
   const deleteOrder = async (order: Order) => {
     await OrderService.deleteORder(order.id);
+    setCurrentOrderId(null);
     setOpen(false);
     await fetchOrders();
   };
 
   return (
     <main className="w-full">
-      {orderError && <p>{orderError}</p>}
       <h1 className="font-bold text-3xl">Gestion de pedidos</h1>
       <div className="flex items-center gap-3 mt-10">
         {orders.map((order) => (
@@ -59,6 +63,7 @@ export default function OrdersContainer() {
           )}
         </Modal>
       </div>
+      {orderError && <p className="text-red-500">{orderError}</p>}
     </main>
   );
 }

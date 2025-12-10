@@ -58,8 +58,8 @@ export default function OrderDetail({
             </div>
           )}
           {productError && (
-            <div className="self-end rounded-full my-2 h-full">
-              <DropDownMenu items={productItems} onSelect={onSelect} />
+            <div className="self-end">
+              <p className="text-red-500"></p>
             </div>
           )}
           <div className="flex justify-between w-full py-2">
