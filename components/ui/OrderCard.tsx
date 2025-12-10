@@ -41,7 +41,7 @@ export default function OrderCard({
       <div className="self-start p-3">
         <p>
           {order.order_products.map(
-            (product) => ` ${product.quantity}x ${product.product_name}`
+            (product) => ` ${product.quantity}x ${product.name}`
           )}
         </p>
       </div>
