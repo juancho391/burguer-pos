@@ -1,50 +1,62 @@
 "use client";
 import OrderCard from "@/components/ui/OrderCard";
-import { useState } from "react";
-import { useEffect } from "react";
+import { Key, useState } from "react";
 import { OrderService } from "@/services/ordersService";
-import { useAppDispatch } from "@/hooks/reduxHooks";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import { setOrders } from "@/store/orderSlice";
+import useOrders from "@/hooks/useOrders";
 import Modal from "@/components/ui/Modal";
 import OrderDetail from "@/components/ui/OrderDetail";
 import { Order } from "@/types/order";
+import useProducts from "@/hooks/useProducts";
 export default function OrdersContainer() {
-  const [error, setError] = useState("");
-  const dispatch = useAppDispatch();
   const orders = useAppSelector((state) => state.orders.orders);
+  const products = useAppSelector((state) => state.products.products);
   const [open, setOpen] = useState(false);
-  const [currentOrder, setCurrentOrder] = useState<Order>();
-  const fetchOrders = async () => {
-    setError("");
-    try {
-      const orders = await OrderService.getAll();
-      dispatch(setOrders(orders));
-    } catch (err) {
-      console.log(err);
-      setError("No se pudieron cargar los pedidos");
-    } finally {
-    }
-  };
-  useEffect(() => {
-    fetchOrders();
-  }, [dispatch]);
+  const [currentOrderId, setCurrentOrderId] = useState<number | null>(null);
 
-  const onOpen = (order: Order) => {
-    setCurrentOrder(order);
+  const { productError, fetchProducts } = useProducts();
+  const { orderError, fetchOrders } = useOrders();
+
+  const onOpen = async (order: Order) => {
+    setCurrentOrderId(order.id);
+    await fetchProducts();
     setOpen(true);
+  };
+  const onSelect = async (key: Key) => {
+    await OrderService.addProduct(currentOrderId!, key as number, 1);
+    await fetchOrders();
+  };
+
+  const closeOrder = async (order: Order, includeService: boolean) => {
+    await OrderService.closeOrder(order.id, includeService);
+    await fetchOrders();
+  };
+
+  const deleteOrder = async (order: Order) => {
+    await OrderService.deleteORder(order.id);
+    setOpen(false);
+    await fetchOrders();
   };
 
   return (
     <main className="w-full">
-      {error && <p>{error}</p>}
+      {orderError && <p>{orderError}</p>}
       <h1 className="font-bold text-3xl">Gestion de pedidos</h1>
       <div className="flex items-center gap-3 mt-10">
         {orders.map((order) => (
           <OrderCard key={order.id} order={order} onOpen={onOpen} />
         ))}
         <Modal open={open} onClose={() => setOpen(false)}>
-          {currentOrder && <OrderDetail order={currentOrder} />}
+          {currentOrderId && (
+            <OrderDetail
+              order={orders.find((order) => order.id === currentOrderId)!}
+              products={products}
+              onSelect={onSelect}
+              closeOrder={closeOrder}
+              deleteOrder={deleteOrder}
+              productError={productError}
+            />
+          )}
         </Modal>
       </div>
     </main>
