@@ -10,7 +10,7 @@ export default function OrderCard({
 }) {
   return (
     <div
-      className="w-1/3 border border-black rounded-lg min-h-40 flex  flex-col justify-center items-center gap-3 p-3  "
+      className="border border-black rounded-lg min-h-45 flex  flex-col justify-center items-center gap-3 p-3 flex-1 basis-56"
       onClick={() => onOpen(order)}
     >
       <div className="flex items-center justify-between w-full ">
