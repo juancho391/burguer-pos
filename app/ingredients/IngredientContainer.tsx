@@ -1,40 +1,23 @@
 "use client";
 import { IngredientService } from "@/services/IngredientService";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { setIngredients } from "@/store/ingredientSlice";
+import { useState } from "react";
 import IngredientTable from "@/components/ui/IngredientTable";
 import { CreateIngredient, Ingredient } from "@/types/ingredient";
 import Modal from "@/components/ui/Modal";
 import { GenericButton } from "@/components/ui/genericButton";
 import IngredientForm from "@/components/forms/IngredientForm";
-import useAuthGuard from "@/hooks/useAuthGuard";
-export default function IngredientContainer() {
-  const { loading } = useAuthGuard();
-  const [isLoading, setIsLoading] = useState(true);
+import useIngredients from "@/hooks/useIngredients";
+import { useAppSelector } from "@/hooks/reduxHooks";
+export default function IngredientContainer({
+  isLoading,
+}: {
+  isLoading: boolean;
+}) {
+  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
   const [createError, setCreateError] = useState("");
-  const dispatch = useAppDispatch();
-  const ingredients = useAppSelector((state) => state.ingredients.ingredients);
-
-  const fetchIngredients = async () => {
-    setIsLoading(true);
-    setError("");
-    try {
-      const ingredients = await IngredientService.getAll();
-      dispatch(setIngredients(ingredients));
-    } catch (err) {
-      console.log(err);
-      setError("No se pudieron cargar los ingredientes");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchIngredients();
-  }, [dispatch]);
+  const { fetchIngredients } = useIngredients();
 
   const handleUpdateStock = async (
     ingredient: Ingredient,
@@ -97,18 +80,11 @@ export default function IngredientContainer() {
     }
   };
 
-  const isAppLoading = loading || isLoading;
-
   return (
     <>
-      {isAppLoading ? (
-        <div className="w-full h-screen flex items-center justify-center">
-          <p className="text-2xl font-bold">Loading...</p>
-        </div>
-      ) : null}
       <IngredientTable
         ingredients={ingredients}
-        isLoading={isAppLoading}
+        isLoading={isLoading}
         onIncrease={increaseStock}
         onDecrease={decreaseStock}
         onDelete={deleteIngredient}

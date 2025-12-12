@@ -8,9 +8,8 @@ import Modal from "@/components/ui/Modal";
 import OrderDetail from "@/components/ui/OrderDetail";
 import { Order } from "@/types/order";
 import useProducts from "@/hooks/useProducts";
-import useAuthGuard from "@/hooks/useAuthGuard";
+import OrderForm from "@/components/forms/OrderForm";
 export default function OrdersContainer() {
-  const { loading } = useAuthGuard();
   const orders = useAppSelector((state) => state.orders.orders);
   const products = useAppSelector((state) => state.products.products);
   const [open, setOpen] = useState(false);
@@ -45,15 +44,22 @@ export default function OrdersContainer() {
     await fetchOrders();
   };
 
+  const createOrder = async (data: { customer: string }) => {
+    try {
+      await OrderService.createOrder(data.customer);
+      await fetchOrders();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <main className="w-full">
-      {loading && (
-        <div className="w-full h-screen flex items-center justify-center">
-          <p className="text-2xl font-bold">Loading...</p>
-        </div>
-      )}
-      <h1 className="font-bold text-3xl">Gestion de pedidos</h1>
-      <div className="flex items-center gap-3 mt-10">
+      <div className="flex gap-3 justify-between w-full p-7 items-center">
+        <h1 className="font-bold text-3xl">Gestion de pedidos</h1>
+        <OrderForm onSubmit={createOrder} />
+      </div>
+      <div className="flex items-center gap-3 mt-5 flex-wrap px-7">
         {orders.map((order) => (
           <OrderCard key={order.id} order={order} onOpen={onOpen} />
         ))}
