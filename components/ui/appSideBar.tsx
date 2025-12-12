@@ -1,5 +1,6 @@
-import { Home, Inbox, LayoutDashboard, ScrollText } from "lucide-react";
-
+import { Home, Inbox, LayoutDashboard, ScrollText, LogOut } from "lucide-react";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { logout } from "@/store/authSlice";
 import {
   Sidebar,
   SidebarContent,
@@ -35,6 +36,7 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const dispatch = useAppDispatch();
   return (
     <Sidebar>
       <SidebarContent>
@@ -54,6 +56,14 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem key={"logout"}>
+                <SidebarMenuButton asChild onClick={() => dispatch(logout())}>
+                  <a href="/login">
+                    <LogOut />
+                    <span>Cerrar sesión</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
