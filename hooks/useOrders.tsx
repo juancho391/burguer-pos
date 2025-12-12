@@ -13,7 +13,7 @@ export default function useOrders() {
       const orders = await OrderService.getAll();
       dispatch(setOrders(orders));
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setOrderError("No se pudieron cargar los pedidos");
     }
   }, [dispatch]);
