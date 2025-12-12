@@ -43,6 +43,7 @@ export default function LoginForm({
           name="username"
           placeholder="username"
           onChange={handleChange}
+          className="w-full"
         />
         <label htmlFor="password" className="self-start">
           Contraseña
@@ -52,11 +53,12 @@ export default function LoginForm({
           type="password"
           placeholder="Contraseña"
           onChange={handleChange}
+          className="w-full"
         />
         {error && <p className="text-red-500 mt-2">{error}</p>}
         <GenericButton
           type="submit"
-          className="border w-1/2 mt-3 bg-orange-500 hover:bg-orange-600 cursor-pointer"
+          className="border w-1/2 mt-3 bg-orange-500 hover:bg-orange-600 cursor-pointer hover:scale-110"
         >
           Iniciar Sesion
         </GenericButton>
