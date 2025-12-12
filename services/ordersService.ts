@@ -30,4 +30,11 @@ export const OrderService = {
     const response = await api.delete(`/api/orders/${order_id}/delete/`);
     return response.data;
   },
+
+  createOrder: async (customer: string) => {
+    const response = await api.post(`/api/orders/create/`, {
+      customer: customer,
+    });
+    return response.data;
+  },
 };
