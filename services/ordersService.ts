@@ -18,6 +18,12 @@ export const OrderService = {
     return response.data;
   },
 
+  removeProduct: async (order_id: number, product_id: number) => {
+    const response = await api.post(`/api/orders/${order_id}/remove-product/`, {
+      product_id: product_id,
+    });
+  },
+
   closeOrder: async (order_id: number, include_service: boolean) => {
     const response = await api.post(`/api/orders/${order_id}/close/`, {
       include_service: include_service,

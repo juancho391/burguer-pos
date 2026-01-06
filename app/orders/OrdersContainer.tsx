@@ -9,6 +9,7 @@ import OrderDetail from "@/components/ui/OrderDetail";
 import { Order } from "@/types/order";
 import useProducts from "@/hooks/useProducts";
 import OrderForm from "@/components/forms/OrderForm";
+
 export default function OrdersContainer() {
   const orders = useAppSelector((state) => state.orders.orders);
   const products = useAppSelector((state) => state.products.products);
@@ -25,6 +26,23 @@ export default function OrdersContainer() {
   const onSelect = async (key: Key) => {
     try {
       await OrderService.addProduct(currentOrderId!, key as number, 1);
+      await fetchOrders();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeProductOrder = async (product_id: number) => {
+    try {
+      await OrderService.removeProduct(currentOrderId!, product_id);
+      await fetchOrders();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const addProductOrder = async (product_id: number) => {
+    try {
+      await OrderService.addProduct(currentOrderId!, product_id, 1);
       await fetchOrders();
     } catch (error) {
       console.log(error);
@@ -72,6 +90,8 @@ export default function OrdersContainer() {
               closeOrder={closeOrder}
               deleteOrder={deleteOrder}
               productError={productError}
+              addProduct={addProductOrder}
+              removeProduct={removeProductOrder}
             />
           )}
         </Modal>

@@ -14,6 +14,8 @@ export default function OrderDetail({
   closeOrder,
   deleteOrder,
   productError,
+  removeProduct,
+  addProduct,
 }: {
   order: Order;
   products: Product[];
@@ -21,6 +23,8 @@ export default function OrderDetail({
   closeOrder: (order: Order, includeService: boolean) => void;
   deleteOrder: (order: Order) => void;
   productError: string;
+  addProduct: (product_id: number) => void;
+  removeProduct: (product_id: number) => void;
 }) {
   const [includeService, setIncludeService] = useState(false);
 
@@ -42,6 +46,8 @@ export default function OrderDetail({
             key={product.id}
             product={product}
             isPaid={order.is_paid}
+            addProduct={addProduct}
+            removeProduct={removeProduct}
           />
         ))}
         <div className="border border-black/20 w-full "></div>
